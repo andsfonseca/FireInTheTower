@@ -56,12 +56,14 @@ public class BlockBuild : MonoBehaviour {
             this.blockHScale = this.block.transform.localScale.y;
         if (this.blockDScale == 0)
             this.blockDScale = this.block.transform.localScale.z;
+
+        GameLogic.Instance.RegisterBlockBuilds(this);
     }
 
     /// <summary>
     /// Cria os Blocos predefinidos
     /// </summary>
-    public void Start() {
+    public void Create() {
         Vector3 position = this.transform.position;
 
         //Frente

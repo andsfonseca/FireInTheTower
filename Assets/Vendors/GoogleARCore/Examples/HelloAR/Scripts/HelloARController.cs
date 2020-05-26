@@ -37,8 +37,7 @@ namespace GoogleARCore.Examples.HelloAR
     public class HelloARController : MonoBehaviour
     {
         /// <summary>
-        /// The first-person camera being used to render the passthrough camera image (i.e. AR
-        /// background).
+        /// A camêra que será usada em primeira pessoa
         /// </summary>
         public Camera FirstPersonCamera;
 
@@ -185,14 +184,14 @@ namespace GoogleARCore.Examples.HelloAR
             // appear.
             if (Session.Status == SessionStatus.ErrorPermissionNotGranted)
             {
-                _ShowAndroidToastMessage("Camera permission is needed to run this application.");
+                _ShowAndroidToastMessage("É preciso dar permissões da câmera para iniciar esta aplicação!");
                 m_IsQuitting = true;
                 Invoke("_DoQuit", 0.5f);
             }
             else if (Session.Status.IsError())
             {
                 _ShowAndroidToastMessage(
-                    "ARCore encountered a problem connecting.  Please start the app again.");
+                    "Não foi possível usar os recursos do Ar Core. Tente novamente");
                 m_IsQuitting = true;
                 Invoke("_DoQuit", 0.5f);
             }
@@ -207,9 +206,9 @@ namespace GoogleARCore.Examples.HelloAR
         }
 
         /// <summary>
-        /// Show an Android toast message.
+        /// Envia uma mensagem para o Usuário atravês do Toast
         /// </summary>
-        /// <param name="message">Message string to show in the toast.</param>
+        /// <param name="message">Corpo da Mensagem.</param>
         private void _ShowAndroidToastMessage(string message)
         {
             AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
