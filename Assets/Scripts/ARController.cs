@@ -83,16 +83,16 @@ public class ARController : MonoBehaviour {
 
                 ///Caso a posição seja nula, cria o objeto
                 if (_globalARSelected == null) {
-                    GameObject prefab = new GameObject();
-                    prefab.name = "Global Position Marker";
-                    _globalARSelected = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
+                    _globalARSelected = new GameObject();
+                    _globalARSelected.name = "Global Position Marker";
+                    GameObject marker = Instantiate(_globalARSelected, Vector3.zero, Quaternion.identity, _globalARSelected.transform);
+                    marker.name = "Marker";
+
                 }
-                //Senão apenas atualiza
-                else {
-                    _globalARSelected.transform.position = hit.Pose.position;
-                    _globalARSelected.transform.rotation = hit.Pose.rotation;
-                }
-               
+
+                _globalARSelected.transform.position = hit.Pose.position;
+                _globalARSelected.transform.rotation = hit.Pose.rotation;
+
                 // Compensate for the hitPose rotation facing away from the raycast (i.e.
                 // camera).
                 _globalARSelected.transform.Rotate(0, k_PrefabRotation, 0, Space.Self);

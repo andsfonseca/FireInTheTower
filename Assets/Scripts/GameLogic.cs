@@ -32,7 +32,8 @@ public class GameLogic : MonoBehaviour {
 
     public bool CanSeePlane {
         get {
-            return currentGameState == "BeforeStart";
+            //return currentGameState == "BeforeStart";
+            return true;
         }
     }
 
@@ -129,7 +130,9 @@ public class GameLogic : MonoBehaviour {
             }
             case "Basic": {
                 //Coloca o template da Cidade
-                Instantiate(BasicCityTemplate, AR.GlobalAR.transform, true) ;
+                GameObject basic = Instantiate(BasicCityTemplate, Vector3.zero, Quaternion.identity);
+                basic.transform.SetParent(AR.GlobalAR.transform, false);
+
                 //Inicializa o Block Build
                 foreach (BlockBuild bb in blockBuilds)
                     bb.Create();
