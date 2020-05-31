@@ -77,14 +77,14 @@ public class BlockBuild : MonoBehaviour {
 
             for (int j = 0; j < height; j++) {
                 aux += new Vector3(0, blockHScale, 0);
-                GameObject go = Instantiate(block, aux, Quaternion.identity, this.transform);
+                GameObject go = Instantiate(block, aux, this.transform.rotation, this.transform);
 
                 if (isFloor) {
                     if (door == i) {
                         Instantiate(floor, go.transform);
                     }
                     else {
-                        Instantiate(floor, go.transform.position, Quaternion.Euler(0, 180,0), go.transform);
+                        Instantiate(floor, go.transform.position, Quaternion.Euler( this.transform.rotation.eulerAngles + new Vector3(0, 180, 0)) , go.transform);
                     }
                     
                     isFloor = false;
@@ -106,7 +106,7 @@ public class BlockBuild : MonoBehaviour {
             bool isFloor = true;
             for (int j = 0; j < height; j++) {
                 aux += new Vector3(0, blockHScale, 0);
-                GameObject go = Instantiate(block, aux, Quaternion.identity, this.transform);
+                GameObject go = Instantiate(block, aux, this.transform.rotation, this.transform);
 
                 if (isFloor) {
 
@@ -114,7 +114,7 @@ public class BlockBuild : MonoBehaviour {
                         Instantiate(floor, go.transform);
                     }
                     else {
-                        Instantiate(floor, go.transform.position, Quaternion.Euler(0, 180, 0), go.transform);
+                        Instantiate(floor, go.transform.position, Quaternion.Euler(this.transform.rotation.eulerAngles + new Vector3(0, 180, 0)), go.transform);
                     }
                     isFloor = false;
                 }
@@ -133,7 +133,7 @@ public class BlockBuild : MonoBehaviour {
             bool isFloor = true;
             for (int j = 0; j < height; j++) {
                 aux += new Vector3(0, blockHScale, 0);
-                GameObject go = Instantiate(block, aux, Quaternion.identity, this.transform);
+                GameObject go = Instantiate(block, aux, this.transform.rotation, this.transform);
 
                 if (isFloor) {
                     Instantiate(floor, go.transform);
@@ -156,7 +156,7 @@ public class BlockBuild : MonoBehaviour {
 
             for (int j = 0; j < height; j++) {
                 aux += new Vector3(0, blockHScale, 0);
-                GameObject go = Instantiate(block, aux, Quaternion.identity, this.transform);
+                GameObject go = Instantiate(block, aux, this.transform.rotation, this.transform);
 
                 if (isFloor) {
                     Instantiate(floor, go.transform);

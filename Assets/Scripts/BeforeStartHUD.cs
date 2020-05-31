@@ -36,7 +36,7 @@ public class BeforeStartHUD : MonoBehaviour
         dialog.SetActive(false);
         dialogWarning.SetActive(true);
 
-        GameLogic.Instance.enableSelectOnTrackingPlanes = true;
+        GameLogic.Instance.SelectOnTrackingPlanes = true;
     }
 
 

@@ -10,13 +10,45 @@ public class GameLogic : MonoBehaviour {
     /// </summary>
     public BeforeStartHUD beforeStartHUD;
 
-    public GameObject TestObject;
+    /// <summary>
+    /// Template padrão da Cidade
+    /// </summary>
+    public GameObject BasicCityTemplate;
+
+    /// <summary>
+    /// Controlador do ARCore
+    /// </summary>
+    public ARController AR;
+
+    /// <summary>
+    /// Informa se é possível selecionar um plano para exibição
+    /// </summary>
+    private bool isSelectTrackingPlanAvaible = false;
+
+    /// <summary>
+    /// Informa o atual GameState
+    /// </summary>
+    private string currentGameState = "";
+
+    public bool CanSeePlane {
+        get {
+            return currentGameState == "BeforeStart";
+        }
+    }
 
     /// <summary>
     /// Indica se é permitido inicializar a seleção do ponto a partir do rastreamento do ARCore
     /// </summary>
-    [HideInInspector]
-    public bool enableSelectOnTrackingPlanes = false;
+    public bool SelectOnTrackingPlanes {
+        get {
+            return isSelectTrackingPlanAvaible;
+        }
+        set {
+            isSelectTrackingPlanAvaible = value;
+            OnTrackingStatusChange(value);
+
+        }
+    }
 
     /// <summary>
     /// Armazena a Instância atual da GameLogic
@@ -89,27 +121,46 @@ public class GameLogic : MonoBehaviour {
     /// Avança para um determinado game state
     /// </summary>
     /// <param name="mode">Nome de Referência do GameState</param>
-    public void SetGameMode(string mode) {
+    public void SetGameState(string mode) {
         switch (mode) {
             case "BeforeStart": {
                 beforeStartHUD.InitializeHUD();
                 break;
             }
             case "Basic": {
+                //Coloca o template da Cidade
+                Instantiate(BasicCityTemplate, AR.GlobalAR.transform, true) ;
                 //Inicializa o Block Build
                 foreach (BlockBuild bb in blockBuilds)
                     bb.Create();
                 break;
             }
         }
-    }
 
+        currentGameState = mode;
+    }
+    
     void Start() {
-        SetGameMode("BeforeStart");
+        SetGameState("BeforeStart");
     }
 
     private void Update() {
         _UpdateApplicationLifecycle();
+    }
+
+    /// <summary>
+    /// S
+    /// </summary>
+    /// <param name="value"></param>
+    private void OnTrackingStatusChange(bool value) {
+
+        //Se estou no gameState de Inicio
+        if (currentGameState == "BeforeStart") {
+            //Se acabou de ficar falso, significa que o usuário selecionou o local
+            if (!value) {
+                SetGameState("Basic");
+            }
+        }
     }
 
     /// <summary>
@@ -148,7 +199,7 @@ public class GameLogic : MonoBehaviour {
     }
 
     /// <summary>
-    /// Actually quit the application.
+    /// Fecha a aplicação
     /// </summary>
     private void _DoQuit() {
         Application.Quit();

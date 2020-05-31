@@ -62,7 +62,7 @@ public class ARController : MonoBehaviour {
         }
 
         //Se a seleção está desabilitada, não precisar capturar os pontos selecionadas
-        if (!GameLogic.Instance.enableSelectOnTrackingPlanes) {
+        if (!GameLogic.Instance.SelectOnTrackingPlanes) {
             return;
         }
 
@@ -104,13 +104,8 @@ public class ARController : MonoBehaviour {
                 // Make game object a child of the anchor.
                 _globalARSelected.transform.parent = anchor.transform;
 
-                //foreach (Transform obj in _globalARSelected.GetComponentsInChildren<Transform>()) {
-                //    GameObject.Destroy(obj.gameObject);
-                //}
-
-                Instantiate(GameLogic.Instance.TestObject, _globalARSelected.transform);
-
-                GameLogic.Instance.enableSelectOnTrackingPlanes = false;
+                //Desabilita a seleção para um local
+                GameLogic.Instance.SelectOnTrackingPlanes = false;
 
             }
         }
