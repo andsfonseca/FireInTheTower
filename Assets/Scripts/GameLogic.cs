@@ -59,7 +59,7 @@ public class GameLogic : MonoBehaviour {
     /// <summary>
     /// Contém todos os BlockBuilds cadastrados na cena
     /// </summary>
-    private static List<BlockBuild> blockBuilds = new List<BlockBuild>();
+    private static List<BuildGenerator> blockBuilds = new List<BuildGenerator>();
 
     /// <summary>
     /// Instância da GameLogic
@@ -106,7 +106,7 @@ public class GameLogic : MonoBehaviour {
     /// Registra um Block Build
     /// </summary>
     /// <param name="bb">Block Build Script</param>
-    public void RegisterBlockBuilds(BlockBuild bb) {
+    public void RegisterBlockBuilds(BuildGenerator bb) {
         blockBuilds.Add(bb);
     }
 
@@ -114,7 +114,7 @@ public class GameLogic : MonoBehaviour {
     /// Desregistra um BlockBuild
     /// </summary>
     /// <param name="bb">Block Build Script</param>
-    public void UnregisterBlockBuilds(BlockBuild bb) {
+    public void UnregisterBlockBuilds(BuildGenerator bb) {
         blockBuilds.Remove(bb);
     }
 
@@ -134,7 +134,7 @@ public class GameLogic : MonoBehaviour {
                 basic.transform.SetParent(AR.GlobalAR.transform, false);
 
                 //Inicializa o Block Build
-                foreach (BlockBuild bb in blockBuilds)
+                foreach (BuildGenerator bb in blockBuilds)
                     bb.Create();
                 break;
             }

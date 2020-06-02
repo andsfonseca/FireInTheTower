@@ -2,30 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockBuild : MonoBehaviour {
-
-    public GameObject block;
-    public int width;
-    public int height;
-    public int depth;
-
-    public GameObject floor;
-    public GameObject wall;
+public class BuildGenerator : MonoBehaviour {
 
     /// <summary>
-    /// Comprimento do Block (X)
+    /// Objeto que possui o Collider
     /// </summary>
+    [Header("Objects Reference")]
+    [Tooltip("Informa o Objeto que possui o Collider")]
+    public GameObject colliderObject;
+
+    /// <summary>
+    /// Objeto que vai ser instancia no chão
+    /// </summary>
+    [Tooltip("Informa o Objeto que vai ser instanciado no chão")]
+    public GameObject ground;
+
+    /// <summary>
+    /// Objeto que vai ser instanciado nos andares acima do chão
+    /// </summary>
+    [Tooltip("Informa o Objeto que vai ser instanciado nos andares acima do chão")]
+    public GameObject upperFloors;
+
+    /// <summary>
+    /// Comprimento do Objeto (X)
+    /// </summary>
+    [Header("Object Aspects")]
+    [Tooltip("Comprimento do Objeto (X)")]
     public float blockWScale;
 
     /// <summary>
-    /// Altura do Block (Y)
+    /// Altura do Objeto (Y)
     /// </summary>
+    [Tooltip("Altura do Objeto (Y)")]
     public float blockHScale;
 
     /// <summary>
-    /// Profundidade do Block (Z)
+    /// Profundidade do Objeto (Z)
     /// </summary>
+    [Tooltip("Profundidade do Objeto (Z)")]
     public float blockDScale;
+
+    /// <summary>
+    /// Comprimento do prédio
+    /// </summary>
+    [Header("Building aspects")]
+    [Tooltip("Comprimento do Prédio (X)")]
+    public int width;
+
+    /// <summary>
+    /// Altura do Prédio
+    /// </summary>
+    [Tooltip("Altura do Prédio (X)")]
+    public int height;
+
+    /// <summary>
+    /// Profundidade do Prédio
+    /// </summary>
+    [Tooltip("Profundidade do Prédio (X)")]
+    public int depth;
 
     /// <summary>
     /// Informa se está tudo OK
@@ -35,9 +69,9 @@ public class BlockBuild : MonoBehaviour {
             return width > 0 &&
                 height > 0 &&
                 depth > 0 &&
-                block != null &&
-                floor != null &&
-                wall != null;
+                colliderObject != null &&
+                ground != null &&
+                upperFloors != null;
         }
     }
 
@@ -51,11 +85,11 @@ public class BlockBuild : MonoBehaviour {
         }
 
         if (this.blockWScale == 0)
-            this.blockWScale = this.block.transform.localScale.x;
+            this.blockWScale = this.colliderObject.transform.localScale.x;
         if (this.blockHScale == 0)
-            this.blockHScale = this.block.transform.localScale.y;
+            this.blockHScale = this.colliderObject.transform.localScale.y;
         if (this.blockDScale == 0)
-            this.blockDScale = this.block.transform.localScale.z;
+            this.blockDScale = this.colliderObject.transform.localScale.z;
 
         GameLogic.Instance.RegisterBlockBuilds(this);
     }
@@ -77,24 +111,24 @@ public class BlockBuild : MonoBehaviour {
         for (int i = 0; i < width; i++) {
 
             bool isFloor = true;
-            
+
 
             for (int j = 0; j < height; j++) {
                 aux += new Vector3(0, blockHScale, 0);
-                GameObject go = Instantiate(block, aux, Generated.transform.rotation, Generated.transform);
+                GameObject go = Instantiate(colliderObject, aux, Generated.transform.rotation, Generated.transform);
 
                 if (isFloor) {
                     if (door == i) {
-                        Instantiate(floor, go.transform);
+                        Instantiate(ground, go.transform);
                     }
                     else {
-                        Instantiate(floor, go.transform.position, Quaternion.Euler(Generated.transform.rotation.eulerAngles + new Vector3(0, 180, 0)) , go.transform);
+                        Instantiate(ground, go.transform.position, Quaternion.Euler(Generated.transform.rotation.eulerAngles + new Vector3(0, 180, 0)), go.transform);
                     }
-                    
+
                     isFloor = false;
                 }
                 else
-                    Instantiate(wall, go.transform);
+                    Instantiate(upperFloors, go.transform);
 
             }
 
@@ -110,20 +144,20 @@ public class BlockBuild : MonoBehaviour {
             bool isFloor = true;
             for (int j = 0; j < height; j++) {
                 aux += new Vector3(0, blockHScale, 0);
-                GameObject go = Instantiate(block, aux, Generated.transform.rotation, Generated.transform);
+                GameObject go = Instantiate(colliderObject, aux, Generated.transform.rotation, Generated.transform);
 
                 if (isFloor) {
 
                     if (door != i) {
-                        Instantiate(floor, go.transform);
+                        Instantiate(ground, go.transform);
                     }
                     else {
-                        Instantiate(floor, go.transform.position, Quaternion.Euler(Generated.transform.rotation.eulerAngles + new Vector3(0, 180, 0)), go.transform);
+                        Instantiate(ground, go.transform.position, Quaternion.Euler(Generated.transform.rotation.eulerAngles + new Vector3(0, 180, 0)), go.transform);
                     }
                     isFloor = false;
                 }
                 else
-                    Instantiate(wall, go.transform);
+                    Instantiate(upperFloors, go.transform);
             }
 
             aux = new Vector3(aux.x, position.y, aux.z);
@@ -137,14 +171,14 @@ public class BlockBuild : MonoBehaviour {
             bool isFloor = true;
             for (int j = 0; j < height; j++) {
                 aux += new Vector3(0, blockHScale, 0);
-                GameObject go = Instantiate(block, aux, Generated.transform.rotation, Generated.transform);
+                GameObject go = Instantiate(colliderObject, aux, Generated.transform.rotation, Generated.transform);
 
                 if (isFloor) {
-                    Instantiate(floor, go.transform);
+                    Instantiate(ground, go.transform);
                     isFloor = false;
                 }
                 else
-                    Instantiate(wall, go.transform);
+                    Instantiate(upperFloors, go.transform);
 
             }
 
@@ -160,14 +194,14 @@ public class BlockBuild : MonoBehaviour {
 
             for (int j = 0; j < height; j++) {
                 aux += new Vector3(0, blockHScale, 0);
-                GameObject go = Instantiate(block, aux, Generated.transform.rotation, Generated.transform);
+                GameObject go = Instantiate(colliderObject, aux, Generated.transform.rotation, Generated.transform);
 
                 if (isFloor) {
-                    Instantiate(floor, go.transform);
+                    Instantiate(ground, go.transform);
                     isFloor = false;
                 }
                 else
-                    Instantiate(wall, go.transform);
+                    Instantiate(upperFloors, go.transform);
             }
 
             aux = new Vector3(aux.x, position.y, aux.z);
