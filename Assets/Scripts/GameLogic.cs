@@ -175,7 +175,7 @@ public class GameLogic : MonoBehaviour {
             _DoQuit();
         }
 
-        //Se a tela para não dormir enquanto está rastreando
+        //Enquanto a tela estiver rastreando, o sistema não pode dormir
         if (Session.Status != SessionStatus.Tracking) {
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
         }
