@@ -1,10 +1,15 @@
 fileFormatVersion: 2
 guid: 050f242b6230e6f40872fc428885adc4
-timeCreated: 1491322567
-licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - cloudParticlePrefab: {fileID: 198425023111401784, guid: aa3db9b3e9a326542927dceac342dc58,
+      type: 3}
+  - burstParticlePrefab: {fileID: 198290609325543824, guid: 1ce9d4437500c4f499597d69b0e26f26,
+      type: 3}
+  - paintBombPrefab: {fileID: 1090240162405762, guid: dbd018f84a9d7a74fa67e90cd4ccc3ec,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

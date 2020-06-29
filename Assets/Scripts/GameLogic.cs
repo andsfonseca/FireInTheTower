@@ -29,7 +29,7 @@ public class GameLogic : MonoBehaviour {
     /// Informa o atual GameState
     /// </summary>
     private string currentGameState = "";
-
+    public string GameState { get { return currentGameState; } } 
     public bool CanSeePlane {
         get {
             //return currentGameState == "BeforeStart";
