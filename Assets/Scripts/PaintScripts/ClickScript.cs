@@ -27,7 +27,7 @@ public class ClickScript : MonoBehaviour {
                         m_currColor = 0;
                 }
             }
-            if (Input.GetMouseButtonDown(0) && GameLogic.Instance.GameState == "Basic") {
+            if (Input.GetMouseButtonDown(0)) {
                 /*RaycastHit hit;
                 if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit))
                 {

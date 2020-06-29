@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9866b2011b70245beb43ca6e186fa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textureSize: 64
+  textureSize: 32
 --- !u!64 &64564879815628904
 MeshCollider:
   m_ObjectHideFlags: 0

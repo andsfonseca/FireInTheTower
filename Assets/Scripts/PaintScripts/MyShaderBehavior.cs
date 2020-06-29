@@ -7,7 +7,7 @@ public class MyShaderBehavior : MonoBehaviour
 {
     [Tooltip("Number of pixels per 1 unit of size in world coordinates.")]
     [Range(16, 8182)]
-    public int textureSize = 64;
+    public int textureSize = 32;
 
     private readonly Color c_color = new Color(0, 0, 0, 0);
 

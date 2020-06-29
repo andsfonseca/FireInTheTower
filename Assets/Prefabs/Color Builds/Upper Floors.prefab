@@ -26,7 +26,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9866b2011b70245beb43ca6e186fa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textureSize: 64
+  textureSize: 32
 --- !u!64 &5247120992934844083
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9866b2011b70245beb43ca6e186fa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textureSize: 64
+  textureSize: 32
 --- !u!64 &2569729867515956578
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9866b2011b70245beb43ca6e186fa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textureSize: 64
+  textureSize: 32
 --- !u!1 &8826116057800691314
 GameObject:
   m_ObjectHideFlags: 0

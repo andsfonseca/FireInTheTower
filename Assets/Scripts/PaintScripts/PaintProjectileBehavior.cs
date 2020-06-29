@@ -22,7 +22,7 @@ public class PaintProjectileBehavior : MonoBehaviour
     {
         if (!isActive)
             return;
-
+        Debug.Log(transform.position);
         Destroy(gameObject);
         ParticleSystem cloudParticle = Instantiate(PaintProjectileManager.GetInstance().cloudParticlePrefab, GameLogic.Instance.AR.GlobalAR.transform);
         ParticleSystem burstParticle = Instantiate(PaintProjectileManager.GetInstance().burstParticlePrefab, GameLogic.Instance.AR.GlobalAR.transform);

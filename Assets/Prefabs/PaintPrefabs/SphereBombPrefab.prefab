@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paintColor: {r: 0.0969303, g: 0.06520329, b: 0.9852941, a: 1}
-  paintDiameter: 1.5
+  paintDiameter: 0.105
 --- !u!114 &114152180468776812
 MonoBehaviour:
   m_ObjectHideFlags: 0
