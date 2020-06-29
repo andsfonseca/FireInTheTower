@@ -87,7 +87,7 @@ namespace GoogleARCore.Examples.CloudAnchors
                 // prefab is updated in Unity World coordinates.
                 GameObject planeObject = Instantiate(
                     DetectedPlanePrefab, worldPose.position, worldPose.rotation, transform);
-                planeObject.GetComponent<DetectedPlaneVisualizer>().Initialize(m_NewPlanes[i]);
+                planeObject.GetComponent<PlaneVisualizer>().Initialize(m_NewPlanes[i]);
 
                 if (!m_IsOriginPlaced)
                 {
