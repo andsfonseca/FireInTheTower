@@ -60,3 +60,6 @@ sysinfo.txt
 #built application files
 *.apk
 *.ap_
+
+#Google API
+ProjectSettings/ARCoreExtensionsProjectSettings.json
