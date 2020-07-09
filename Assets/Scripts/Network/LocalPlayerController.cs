@@ -1,4 +1,5 @@
 
+using Assets.Scripts.Network;
 using PaintTower.Scripts;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -23,13 +24,19 @@ namespace PaintTower.Network {
         public GameObject BasicCityPrefab;
 
         /// <summary>
+        /// Dados de Match
+        /// </summary>
+        private MatchState m_matchState;
+
+        /// <summary>
         /// O método OnStartLocalPlayer() da Unity.
         /// </summary>
         public override void OnStartLocalPlayer() {
             base.OnStartLocalPlayer();
-
             //Nome do Objeto para ser encontrado posteriomente
             gameObject.name = "LocalPlayer";
+
+            m_matchState = GetComponent<MatchState>();
         }
 
         /// <summary>
@@ -48,7 +55,6 @@ namespace PaintTower.Network {
 #pragma warning disable 618
             NetworkServer.Spawn(anchorObject);
 #pragma warning restore 618
-
             InitializeWorld(anchor.transform);
         }
 
@@ -57,6 +63,8 @@ namespace PaintTower.Network {
             GameObject basic = Instantiate(BasicCityPrefab, Vector3.zero, Quaternion.identity);
             basic.transform.SetParent(transform, false);
             basic.GetComponentInChildren<BuildGenerator>().Create();
+
+            //Ativa o MatchState
         }
     }
 

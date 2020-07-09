@@ -1,4 +1,5 @@
 
+using Assets.Scripts.Network;
 using PaintTower.Canvas;
 using PaintTower.Enum;
 using PaintTower.Network;
@@ -275,7 +276,9 @@ namespace PaintTower.ARCore {
             }
             else {
                 SetPlaneVisualization(false);
-                (GameLogic.Instance.HostBeforeMatchTooltip as HostBeforeMatchTooltip).Text = "Aguardando outros jogadores...";
+                GameLogic.Instance.HostBeforeMatchTooltip.UnloadHUD();
+                GameLogic.Instance.SetGameState(GameState.LOBBY);
+                GameObject.Find("LocalPlayer").GetComponent<MatchState>().ActiveLobby();
             }
 
         }
@@ -293,7 +296,8 @@ namespace PaintTower.ARCore {
             }
             else {
                 SetPlaneVisualization(false);
-                (GameLogic.Instance.GuestBeforeMatchTooltip as GuestBeforeMatchTooltip).Text = "Aguardando outros jogadores...";
+                GameLogic.Instance.GuestBeforeMatchTooltip.UnloadHUD();
+                GameLogic.Instance.SetGameState(GameState.LOBBY);
             }
         }
 

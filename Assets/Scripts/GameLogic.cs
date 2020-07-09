@@ -51,6 +51,16 @@ namespace PaintTower.Scripts {
         public HUD GuestBeforeMatchTooltip;
 
         /// <summary>
+        /// Interface do Lobby
+        /// </summary>
+        public HUD LobbyMatch;
+
+        /// <summary>
+        /// Interface do Play
+        /// </summary>
+        public HUD Play;
+
+        /// <summary>
         /// HUD de Loading
         /// </summary>
         public HUD LockScreenHUD;
@@ -60,6 +70,11 @@ namespace PaintTower.Scripts {
         /// </summary>
         [Header("Configurações")]
         public GlobalEnvironment globalEnvironment;
+
+        /// <summary>
+        /// Tempo necessário para o usuário confirmar a saída
+        /// </summary>
+        public float MaxLobbyTime;
 
         /// <summary>
         /// Tempo necessário para o usuário confirmar a saída
@@ -220,6 +235,14 @@ namespace PaintTower.Scripts {
                 }
                 case GameState.GUEST_PREPARATION: {
                     GuestBeforeMatchTooltip.InitializeHUD();
+                    break;
+                }
+                case GameState.LOBBY: {
+                    LobbyMatch.InitializeHUD();
+                    break;
+                }
+                case GameState.PLAY: {
+                    Play.InitializeHUD();
                     break;
                 }
             }

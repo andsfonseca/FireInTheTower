@@ -13,6 +13,8 @@ namespace PaintTower.Enum {
         HOST_WARNING,
         GUEST_WARNING,
         HOST_PREPARATION,
-        GUEST_PREPARATION
+        GUEST_PREPARATION,
+        LOBBY,
+        PLAY
     }
 }
