@@ -6,6 +6,8 @@ using System;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using PaintTower.Abstract;
+using Assets.Scripts.Network;
+using PaintTower.Painting;
 
 namespace PaintTower.Scripts {
 
@@ -23,6 +25,11 @@ namespace PaintTower.Scripts {
         /// Controladora do AR
         /// </summary>
         public ARController AR;
+
+        /// <summary>
+        /// Controladora do Camera
+        /// </summary>
+        public GameObject Camera;
 
         /// <summary>
         /// HUD do Menu
@@ -242,6 +249,15 @@ namespace PaintTower.Scripts {
                     break;
                 }
                 case GameState.PLAY: {
+                    Colors playerColor = GameObject.Find("LocalPlayer").GetComponent<MatchState>().playerColor;
+
+                    switch (playerColor) {
+                        case Colors.RED: Camera.GetComponent<ClickScript>().ColorProjectile  = new Color(0.98f, 0.51f, 0.2f); break;
+                        case Colors.YELLOW: Camera.GetComponent<ClickScript>().ColorProjectile  = new Color(1, 0.85f, 0.28f); break;
+                        case Colors.GREEN: Camera.GetComponent<ClickScript>().ColorProjectile  = new Color(0.54f, 0.88f, 0.38f); break;
+                        case Colors.BLUE: Camera.GetComponent<ClickScript>().ColorProjectile  = new Color(0.21f, 0.73f, 0.95f); break;
+                    }
+                    
                     Play.InitializeHUD();
                     break;
                 }
