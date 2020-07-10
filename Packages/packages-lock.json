@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "com.google.ar.core.arfoundation.extensions": {
-      "version": "file:D:/Desktop/package",
+      "version": "file:ARCore Extensions for AR Foundation",
       "depth": 0,
-      "source": "local",
+      "source": "embedded",
       "dependencies": {
         "com.unity.xr.arfoundation": "3.1.0-preview.6",
         "com.unity.xr.arcore": "3.1.0-preview.6"
