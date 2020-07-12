@@ -282,6 +282,7 @@ namespace PaintTower.Scripts {
                 }
                 case GameState.PLAY: {
                     Colors playerColor = GameObject.Find("LocalPlayer").GetComponent<MatchState>().playerColor;
+                    (GameOver as GameOver).objectsToPaint = GameObject.FindObjectsOfType(typeof(PaintCalculation)) as PaintCalculation[];
 
                     switch (playerColor) {
                         case Colors.RED: Camera.GetComponent<ClickScript>().ColorProjectile = new Color(0.98f, 0.51f, 0.2f); break;
