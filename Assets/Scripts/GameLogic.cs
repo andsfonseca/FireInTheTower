@@ -32,6 +32,11 @@ namespace PaintTower.Scripts {
         public GameObject Camera;
 
         /// <summary>
+        /// Controladora do Camera
+        /// </summary>
+        public GameObject GunCamera;
+
+        /// <summary>
         /// HUD do Menu
         /// </summary>
         [Header("HUD")]

@@ -49,6 +49,11 @@ namespace Assets.Scripts.Network {
         /// </summary>
         [SyncVar] public bool MatchIsOpen = false;
 
+        /// <summary>
+        /// Posição do Player em relação a câmera
+        /// </summary>
+        [SyncVar] public Vector3 playerCameraPosition;
+
 #pragma warning restore 618
 
         /// <summary>
@@ -124,7 +129,7 @@ namespace Assets.Scripts.Network {
 
                 //Todos podem fazer isso
                 if (isLocalPlayer) {
-
+                    playerCameraPosition = GameLogic.Instance.AR.WorldOrigin.position - GameLogic.Instance.Camera.transform.position;
                     //Só deve executar se dono da sessão estiver online
                     if (Instance) {
                         //Atualiza o tempo
@@ -133,7 +138,7 @@ namespace Assets.Scripts.Network {
                     }
                 }
 
-                if (matchTime > GameLogic.Instance.MaxLobbyTime) {
+                if (matchTime > GameLogic.Instance.MaxMatchTime) {
                     GameLogic.Instance.Play.UnloadHUD();
                     GameLogic.Instance.SetGameState(GameState.GAMEOVER);
                 }
@@ -195,6 +200,40 @@ namespace Assets.Scripts.Network {
 
             //Faz o que tem que fazer
             RpcPaint(color);
+
+            //Remove a autoridade
+            identity.RemoveClientAuthority(connectionToClient);
+        }
+
+        /// <summary>
+        /// Comando de Alteraçã de Cor vinda do Cliente
+        /// </summary>
+        /// <param name="color"></param>
+#pragma warning disable 618
+        [ClientRpc]
+#pragma warning restore 618
+        void RpcChangePlayerPostion(Vector3 vector) {
+            playerCameraPosition = vector;
+        }
+
+        /// <summary>
+        /// Comando de Alterar cor
+        /// </summary>
+        /// <param name="color">Qual a cor</param>
+#pragma warning disable 618
+        [Command]
+#pragma warning restore 618
+        void CmdChangePlayerPostion(Vector3 vector) {
+            //Pega a Indentidade
+#pragma warning disable 618
+            var identity = GetComponent<NetworkIdentity>();
+#pragma warning restore 618
+
+            //Coloca a autoridade no Cliente
+            identity.AssignClientAuthority(connectionToClient);
+
+            //Faz o que tem que fazer
+            RpcChangePlayerPostion(vector);
 
             //Remove a autoridade
             identity.RemoveClientAuthority(connectionToClient);

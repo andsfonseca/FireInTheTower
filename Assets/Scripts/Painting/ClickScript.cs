@@ -8,6 +8,9 @@ namespace PaintTower.Painting {
     public class ClickScript : MonoBehaviour {
         public Camera mainCamera;
         public Texture2D splashTexture;
+        public Animator gunCameraAnimator;
+        public float shootCooldown;
+        private float m_cooldown;
 
         public Color ColorProjectile { private get; set; } = Color.white;
 
@@ -16,12 +19,18 @@ namespace PaintTower.Painting {
         private int m_currColor = 0;
 
         void Update() {
+
+            if (m_cooldown > 0) {
+                m_cooldown -= Time.deltaTime;
+                return;
+            }
+
             if (GameLogic.Instance.CurrentGameState == GameState.PLAY) {
                 if (Input.touchCount == 1) {
                     if (Input.GetTouch(0).phase == TouchPhase.Began) {
-                        GameObject projectile = Instantiate(PaintProjectileManager.GetInstance().paintBombPrefab, mainCamera.transform.position, mainCamera.transform.rotation, GameLogic.Instance.AR.WorldOrigin);
-                        projectile.GetComponent<PaintProjectileBehavior>().PaintColor = ColorProjectile;
-                        projectile.GetComponent<Rigidbody>().velocity = mainCamera.transform.forward * 5;
+                        gunCameraAnimator.SetTrigger("Shoot");
+                        Invoke("Shoot", 0.3f);
+                        m_cooldown = shootCooldown;
                     }
                 }
                 //if (Input.touchCount == 2) {
@@ -54,6 +63,12 @@ namespace PaintTower.Painting {
                 //        m_currColor = 0;
                 //}
             }
+        }
+
+        public void Shoot() {
+            GameObject projectile = Instantiate(PaintProjectileManager.GetInstance().paintBombPrefab, mainCamera.transform.position, mainCamera.transform.rotation, GameLogic.Instance.AR.WorldOrigin);
+            projectile.GetComponent<PaintProjectileBehavior>().PaintColor = ColorProjectile;
+            projectile.GetComponent<Rigidbody>().velocity = mainCamera.transform.forward * 5;
         }
     }
 }

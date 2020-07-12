@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Network;
 using PaintTower.Abstract;
 using PaintTower.Scripts;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,15 +32,26 @@ namespace PaintTower.Canvas {
         public Text PlayTimerText;
 
         /// <summary>
+        /// Arma do Player
+        /// </summary>
+        private GameObject m_gunCamera;
+
+
+        /// <summary>
         /// Definições da Partida
         /// </summary>
         private MatchState m_matchState;
+
+        private Dictionary<MatchState, GameObject> m_elements = new Dictionary<MatchState, GameObject>();
+
+        public GameObject playerReferecePrefab;
 
         /// <summary>
         /// Inicializa a HUD
         /// </summary>
         public override void InitializeHUD() {
             base.InitializeHUD();
+            m_gunCamera.SetActive(true);
             m_matchState = GameObject.Find("LocalPlayer").GetComponent<MatchState>();
 
             switch (m_matchState.playerColor) {
@@ -51,13 +63,27 @@ namespace PaintTower.Canvas {
                     Crosshair.color = Color.white;
                     break;
             }
+
+            MatchState[] matchstates = FindObjectsOfType<MatchState>();
+
+            for (int i = 0; i < matchstates.Length; i++) {
+                GameObject go = Instantiate(playerReferecePrefab);
+                go.transform.position = matchstates[i].playerCameraPosition;
+                m_elements.Add(matchstates[i], go);
+            }
+            
         }
 
         /// <summary>
         /// Desliga a HUD
         /// </summary>
         public override void UnloadHUD() {
+            m_gunCamera.SetActive(false);
             base.UnloadHUD();
+        }
+
+        public void Awake() {
+            m_gunCamera = GameLogic.Instance.GunCamera;
         }
 
         public void Start() {
@@ -66,6 +92,10 @@ namespace PaintTower.Canvas {
 
         public void Update() {
             PlayTimerText.text = ((int)(GameLogic.Instance.MaxMatchTime - m_matchState.matchTime)).ToString() + "s.";
+
+            foreach (KeyValuePair<MatchState, GameObject> entry in m_elements) {
+                entry.Value.transform.position = entry.Key.playerCameraPosition;
+            }
         }
 
 
