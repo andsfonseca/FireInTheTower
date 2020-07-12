@@ -73,6 +73,11 @@ namespace PaintTower.Scripts {
         public HUD Play;
 
         /// <summary>
+        /// Interface do Play
+        /// </summary>
+        public HUD GameOver;
+
+        /// <summary>
         /// HUD de Loading
         /// </summary>
         public HUD LockScreenHUD;
@@ -234,6 +239,7 @@ namespace PaintTower.Scripts {
                 case GameState.MENU: {
                     MenuHUD.InitializeHUD();
                     globalEnvironment.SetEnvironmentMusic(gamestate, true);
+                    PerformReset();
                     break;
                 }
                 case GameState.GUEST_WARNING: {
@@ -280,6 +286,10 @@ namespace PaintTower.Scripts {
                     }
 
                     Play.InitializeHUD();
+                    break;
+                }
+                case GameState.GAMEOVER: {
+                    GameOver.InitializeHUD();
                     break;
                 }
             }
