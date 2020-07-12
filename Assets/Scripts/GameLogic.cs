@@ -86,6 +86,11 @@ namespace PaintTower.Scripts {
         /// <summary>
         /// Tempo necessário para o usuário confirmar a saída
         /// </summary>
+        public float MaxMatchTime;
+
+        /// <summary>
+        /// Tempo necessário para o usuário confirmar a saída
+        /// </summary>
         public float TimeToConfirmExit;
 
         /// <summary>

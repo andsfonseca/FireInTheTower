@@ -26,10 +26,9 @@ namespace PaintTower.Canvas {
         public Sprite spriteCrosshairShooting;
 
         /// <summary>
-        /// Quantidade de Player na partida com a cor verde
+        /// O tempo restante da partida
         /// </summary>
-        public Text greenLabel;
-
+        public Text PlayTimerText;
 
         /// <summary>
         /// Definições da Partida
@@ -63,6 +62,10 @@ namespace PaintTower.Canvas {
 
         public void Start() {
             Crosshair.sprite = spriteCrosshairIdle;
+        }
+
+        public void Update() {
+            PlayTimerText.text = ((int)(GameLogic.Instance.MaxMatchTime - m_matchState.matchTime)).ToString() + "s.";
         }
 
 

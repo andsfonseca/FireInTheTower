@@ -30,6 +30,11 @@ namespace Assets.Scripts.Network {
         [SyncVar] public float lobbyTime = 0f;
         [HideInInspector]
         /// <summary>
+        /// O Tempo decorrido desde que o lobby começou
+        /// </summary>
+        [SyncVar] public float matchTime = 0f;
+        [HideInInspector]
+        /// <summary>
         /// Se Esta classe pertence ao HOST
         /// </summary>
         [SyncVar] public bool isHost = false;
@@ -38,6 +43,11 @@ namespace Assets.Scripts.Network {
         /// Se o Lobby está aberto
         /// </summary>
         [SyncVar] public bool LobbyIsOpen = false;
+        [HideInInspector]
+        /// <summary>
+        /// Se o Lobby está aberto
+        /// </summary>
+        [SyncVar] public bool MatchIsOpen = false;
 
 #pragma warning restore 618
 
@@ -73,30 +83,60 @@ namespace Assets.Scripts.Network {
         }
 
         void Update() {
-            //Apenas o Host
-            if (isHost) {
-                //Se o Lobby está aberto
-                if (LobbyIsOpen) {
 
-                    //Atualiza o tempo do Lobby
-                    lobbyTime += Time.deltaTime;
+            if (GameLogic.Instance.CurrentGameState == GameState.LOBBY) {
+                //Apenas o Host
+                if (isHost) {
+                    //Se o Lobby está aberto
+                    if (LobbyIsOpen) {
+
+                        //Atualiza o tempo do Lobby
+                        lobbyTime += Time.deltaTime;
+                    }
+                }
+
+                //Todos podem fazer isso
+                if (isLocalPlayer) {
+                    //Só deve executar se dono da sessão estiver online
+                    if (Instance) {
+                        //Atualiza o tempo
+                        lobbyTime = Instance.lobbyTime;
+                        matchTime = Instance.matchTime;
+                    }
+                }
+
+                if (lobbyTime > GameLogic.Instance.MaxLobbyTime) {
+                    GameLogic.Instance.LobbyMatch.UnloadHUD();
+                    GameLogic.Instance.SetGameState(GameState.PLAY);
+                    ActiveMatch();
                 }
             }
 
-            //Todos podem fazer isso
-            if (isLocalPlayer) {
-
-                //Só deve executar se dono da sessão estiver online
-                if (Instance) {
-                    //Atualiza o tempo
-                    lobbyTime = Instance.lobbyTime;
-
+            if (GameLogic.Instance.CurrentGameState == GameState.PLAY) {
+                //Apenas o Host
+                if (isHost) {
+                    //Se o Lobby está aberto
+                    if (MatchIsOpen) {
+                        //Atualiza o tempo do Lobby
+                        matchTime += Time.deltaTime;
+                    }
                 }
-            }
 
-            if (lobbyTime > GameLogic.Instance.MaxLobbyTime) {
-                GameLogic.Instance.LobbyMatch.UnloadHUD();
-                GameLogic.Instance.SetGameState(GameState.PLAY);
+                //Todos podem fazer isso
+                if (isLocalPlayer) {
+
+                    //Só deve executar se dono da sessão estiver online
+                    if (Instance) {
+                        //Atualiza o tempo
+                        lobbyTime = Instance.lobbyTime;
+                        matchTime = Instance.matchTime;
+                    }
+                }
+
+                if (matchTime > GameLogic.Instance.MaxLobbyTime) {
+                    GameLogic.Instance.Play.UnloadHUD();
+                    GameLogic.Instance.SetGameState(GameState.GAMEOVER);
+                }
             }
         }
 
@@ -104,6 +144,15 @@ namespace Assets.Scripts.Network {
             if (isHost) {
                 lobbyTime = 0f;
                 LobbyIsOpen = true;
+                MatchIsOpen = false;
+            }
+        }
+
+        public void ActiveMatch() {
+            if (isHost) {
+                LobbyIsOpen = false;
+                matchTime = 0f;
+                MatchIsOpen = true;
             }
         }
 
@@ -138,7 +187,7 @@ namespace Assets.Scripts.Network {
         void CmdSetColor(Colors color) {
             //Pega a Indentidade
 #pragma warning disable 618
-            var identity = GetComponent<NetworkIdentity>(); 
+            var identity = GetComponent<NetworkIdentity>();
 #pragma warning restore 618
 
             //Coloca a autoridade no Cliente
