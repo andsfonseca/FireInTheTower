@@ -10089,7 +10089,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1651029254
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13314,13 +13314,18 @@ PrefabInstance:
     - target: {fileID: 7982423914745510869, guid: c64176ab12469ee4ba20576758e1a9f5,
         type: 3}
       propertyPath: MaxMatchTime
-      value: 120
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7982423914745510869, guid: c64176ab12469ee4ba20576758e1a9f5,
         type: 3}
       propertyPath: GuestAsHostBeforeMatchTooltip
       value: 
       objectReference: {fileID: 1563061116}
+    - target: {fileID: 7982423914745510869, guid: c64176ab12469ee4ba20576758e1a9f5,
+        type: 3}
+      propertyPath: GameOver
+      value: 
+      objectReference: {fileID: 1651029255}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c64176ab12469ee4ba20576758e1a9f5, type: 3}
 --- !u!1001 &8414383208871426551
