@@ -99,27 +99,30 @@ namespace PaintTower.Network {
                 }
             }
             else {
-                if (m_ShouldResolve) {
-                    if (!m_ar.IsResolvingPrepareTimePassed()) {
-                        return;
-                    }
+                //Não precisa se resolver se o player estiver sozinho
+                if (!GameLogic.Instance.PlayerIsAlone) {
+                    if (m_ShouldResolve) {
+                        if (!m_ar.IsResolvingPrepareTimePassed()) {
+                            return;
+                        }
 
-                    if (!m_PassedResolvingTimeout) {
-                        m_TimeSinceStartResolving += Time.deltaTime;
+                        if (!m_PassedResolvingTimeout) {
+                            m_TimeSinceStartResolving += Time.deltaTime;
 
-                        if (m_TimeSinceStartResolving > k_ResolvingTimeout) {
-                            m_PassedResolvingTimeout = true;
-                            m_ar.OnResolvingTimeoutPassed();
+                            if (m_TimeSinceStartResolving > k_ResolvingTimeout) {
+                                m_PassedResolvingTimeout = true;
+                                m_ar.OnResolvingTimeoutPassed();
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(m_ClouAnchorId) && m_CloudAnchor == null) {
+                            _ResolveCloudAnchorId(m_ClouAnchorId);
                         }
                     }
 
-                    if (!string.IsNullOrEmpty(m_ClouAnchorId) && m_CloudAnchor == null) {
-                        _ResolveCloudAnchorId(m_ClouAnchorId);
+                    if (m_ShouldUpdatePoint) {
+                        _UpdateResolvedCloudAnchor();
                     }
-                }
-
-                if (m_ShouldUpdatePoint) {
-                    _UpdateResolvedCloudAnchor();
                 }
             }
         }

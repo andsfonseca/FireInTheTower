@@ -58,6 +58,11 @@ namespace PaintTower.Scripts {
         public HUD GuestBeforeMatchTooltip;
 
         /// <summary>
+        /// Interface Antes da Partida do Guest ao estar sozinho
+        /// </summary>
+        public HUD GuestAsHostBeforeMatchTooltip;
+
+        /// <summary>
         /// Interface do Lobby
         /// </summary>
         public HUD LobbyMatch;
@@ -102,6 +107,11 @@ namespace PaintTower.Scripts {
         /// Modo de Aplicação Atual
         /// </summary>
         public ApplicationMode CurrentApplicationMode { get; set; } = ApplicationMode.Ready;
+
+        /// <summary>
+        /// Indica se o Player está jogando sozinho
+        /// </summary>
+        public bool PlayerIsAlone { get; private set; } = false;
 
         /// <summary>
         /// Sala Atual da Partida
@@ -180,7 +190,7 @@ namespace PaintTower.Scripts {
                 m_UserForceQuitting = false;
                 m_UserForceQuittingTime = 0f;
             }
-                
+
         }
 
         /// <summary>
@@ -189,22 +199,23 @@ namespace PaintTower.Scripts {
         /// <param name="message">Corpo da Mensagem.</param>
         public void ShowAndroidToastMessage(string message) {
 #if UNITY_ANDROID
-            try { 
-            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            AndroidJavaObject unityActivity =
-                unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            try {
+                AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                AndroidJavaObject unityActivity =
+                    unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
-            if (unityActivity != null) {
-                AndroidJavaClass toastClass = new AndroidJavaClass("android.widget.Toast");
-                unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() => {
-                    AndroidJavaObject toastObject =
-                        toastClass.CallStatic<AndroidJavaObject>(
-                            "makeText", unityActivity, message, 0);
-                    toastObject.Call("show");
-                }));
+                if (unityActivity != null) {
+                    AndroidJavaClass toastClass = new AndroidJavaClass("android.widget.Toast");
+                    unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() => {
+                        AndroidJavaObject toastObject =
+                            toastClass.CallStatic<AndroidJavaObject>(
+                                "makeText", unityActivity, message, 0);
+                        toastObject.Call("show");
+                    }));
+                }
+
             }
-
-            } catch(Exception e) {
+            catch (Exception e) {
                 Debug.Log(message);
             }
 
@@ -249,6 +260,11 @@ namespace PaintTower.Scripts {
                     GuestBeforeMatchTooltip.InitializeHUD();
                     break;
                 }
+                case GameState.GUEST_ALONE_PREPARATION: {
+                    PlayerIsAlone = true;
+                    GuestAsHostBeforeMatchTooltip.InitializeHUD();
+                    break;
+                }
                 case GameState.LOBBY: {
                     LobbyMatch.InitializeHUD();
                     break;
@@ -257,12 +273,12 @@ namespace PaintTower.Scripts {
                     Colors playerColor = GameObject.Find("LocalPlayer").GetComponent<MatchState>().playerColor;
 
                     switch (playerColor) {
-                        case Colors.RED: Camera.GetComponent<ClickScript>().ColorProjectile  = new Color(0.98f, 0.51f, 0.2f); break;
-                        case Colors.YELLOW: Camera.GetComponent<ClickScript>().ColorProjectile  = new Color(1, 0.85f, 0.28f); break;
-                        case Colors.GREEN: Camera.GetComponent<ClickScript>().ColorProjectile  = new Color(0.54f, 0.88f, 0.38f); break;
-                        case Colors.BLUE: Camera.GetComponent<ClickScript>().ColorProjectile  = new Color(0.21f, 0.73f, 0.95f); break;
+                        case Colors.RED: Camera.GetComponent<ClickScript>().ColorProjectile = new Color(0.98f, 0.51f, 0.2f); break;
+                        case Colors.YELLOW: Camera.GetComponent<ClickScript>().ColorProjectile = new Color(1, 0.85f, 0.28f); break;
+                        case Colors.GREEN: Camera.GetComponent<ClickScript>().ColorProjectile = new Color(0.54f, 0.88f, 0.38f); break;
+                        case Colors.BLUE: Camera.GetComponent<ClickScript>().ColorProjectile = new Color(0.21f, 0.73f, 0.95f); break;
                     }
-                    
+
                     Play.InitializeHUD();
                     break;
                 }
@@ -327,6 +343,7 @@ namespace PaintTower.Scripts {
         /// </summary>
         private void PerformReset() {
             CurrentApplicationMode = ApplicationMode.Ready;
+            PlayerIsAlone = false;
             AR.PerformReset();
         }
 

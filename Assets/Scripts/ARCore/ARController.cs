@@ -188,11 +188,11 @@ namespace PaintTower.ARCore {
             }
 
             // Se vocé é o Guest e a posição ainda não foi definida, então Ok
-            if (GameLogic.Instance.CurrentApplicationMode == ApplicationMode.Resolving && !IsOriginPlaced) {
+            if (!GameLogic.Instance.PlayerIsAlone && (GameLogic.Instance.CurrentApplicationMode == ApplicationMode.Resolving) && !IsOriginPlaced) {
                 return;
             }
 
-            if (GameLogic.Instance.CurrentGameState != GameState.HOST_PREPARATION)
+            if (!(GameLogic.Instance.CurrentGameState == GameState.HOST_PREPARATION || GameLogic.Instance.CurrentGameState == GameState.GUEST_ALONE_PREPARATION))
                 return;
 
             // Se o Player não tocou na tela, então OK
@@ -216,13 +216,29 @@ namespace PaintTower.ARCore {
             if (hitResults.Count > 0) {
 
                 //Se o Host ainda não definiu o local de Origem
-                if (!IsOriginPlaced && GameLogic.Instance.CurrentApplicationMode == ApplicationMode.Hosting) {
+                if (!IsOriginPlaced) {
 
                     //Cria uma Ancora
                     ARAnchor anchor = AnchorManager.AddAnchor(hitResults[0].pose);
                     WorldOrigin = anchor.transform;
-                    _InstantiateAnchor(anchor);
-                    OnAnchorInstantiated(true);
+
+                    if (GameLogic.Instance.CurrentGameState == GameState.HOST_PREPARATION) {
+                        _InstantiateAnchor(anchor);
+                        OnAnchorInstantiated(true);
+                    }
+                    else if (GameLogic.Instance.CurrentGameState == GameState.GUEST_ALONE_PREPARATION) {
+                        GameObject.Find("LocalPlayer").GetComponent<LocalPlayerController>()
+                            .InitializeWorld(anchor.transform);
+
+                        OnAnchorInstantiated(false);
+
+                        SetPlaneVisualization(false);
+
+                        GameLogic.Instance.GuestAsHostBeforeMatchTooltip.UnloadHUD();
+                        GameLogic.Instance.SetGameState(GameState.LOBBY);
+                        GameObject.Find("LocalPlayer").GetComponent<MatchState>().ActiveLobby();
+                    }
+
                 }
             }
         }
@@ -332,6 +348,7 @@ namespace PaintTower.ARCore {
             // The anchor will be spawned by the host, so no networking Command is needed.
             GameObject.Find("LocalPlayer").GetComponent<LocalPlayerController>()
                 .SpawnAnchor(anchor);
+
         }
 
         /// <summary>
