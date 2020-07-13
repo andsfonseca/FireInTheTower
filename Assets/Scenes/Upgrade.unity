@@ -937,8 +937,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 125379047}
   splashTexture: {fileID: 2800000, guid: 64b6dce7a5e45fc4693dda1297d4c747, type: 3}
-  gunCameraAnimator: {fileID: 0}
-  shootCooldown: 0
+  gunCameraAnimator: {fileID: 1096838956}
+  shootCooldown: 0.5
 --- !u!20 &125379047 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 5742754244987293305, guid: f75c6660ff0175047bf019597c83c570,
@@ -13423,7 +13423,7 @@ PrefabInstance:
     - target: {fileID: 7982423914745510869, guid: c64176ab12469ee4ba20576758e1a9f5,
         type: 3}
       propertyPath: MaxMatchTime
-      value: 15
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 7982423914745510869, guid: c64176ab12469ee4ba20576758e1a9f5,
         type: 3}
@@ -13435,6 +13435,11 @@ PrefabInstance:
       propertyPath: GameOver
       value: 
       objectReference: {fileID: 1651029255}
+    - target: {fileID: 7982423914745510869, guid: c64176ab12469ee4ba20576758e1a9f5,
+        type: 3}
+      propertyPath: GunCamera
+      value: 
+      objectReference: {fileID: 1096838952}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c64176ab12469ee4ba20576758e1a9f5, type: 3}
 --- !u!1001 &8414383208871426551
