@@ -48,11 +48,25 @@ namespace Assets.Scripts.Network {
         /// Se o Lobby está aberto
         /// </summary>
         [SyncVar] public bool MatchIsOpen = false;
-
+        /// <summary>
+        /// Se a partida acabou
+        /// </summary>
+        [SyncVar] public bool MatchIsOver = false;
         /// <summary>
         /// Posição do Player em relação a câmera
         /// </summary>
         //[SyncVar] public Vector3 playerCameraPosition;
+        [SyncVar] float redPercent = 0;
+        [SyncVar] float yellowPercent = 0;
+        [SyncVar] float greenPercent = 0;
+        [SyncVar] float bluePercent = 0;
+
+        public float[] percents {
+            get {
+                float[] vector = { redPercent, yellowPercent, greenPercent, bluePercent };
+                return vector;
+            }
+        }
 
 #pragma warning restore 618
 
@@ -125,6 +139,11 @@ namespace Assets.Scripts.Network {
                         //Atualiza o tempo do Lobby
                         matchTime += Time.deltaTime;
                     }
+
+                    if (!MatchIsOver && matchTime > GameLogic.Instance.MaxMatchTime) {
+                        CalcPercent(GameObject.FindObjectsOfType(typeof(PaintCalculation)) as PaintCalculation[]);
+                        MatchIsOver = true;
+                    }
                 }
 
                 //Todos podem fazer isso
@@ -135,13 +154,20 @@ namespace Assets.Scripts.Network {
                         //Atualiza o tempo
                         lobbyTime = Instance.lobbyTime;
                         matchTime = Instance.matchTime;
+                        MatchIsOver = Instance.MatchIsOver;
+
+                        if (MatchIsOver) {
+                            redPercent = Instance.redPercent;
+                            yellowPercent = Instance.yellowPercent;
+                            greenPercent = Instance.greenPercent;
+                            bluePercent = Instance.bluePercent;
+                            
+                            GameLogic.Instance.Play.UnloadHUD();
+                            GameLogic.Instance.SetGameState(GameState.GAMEOVER);
+                        }
                     }
                 }
 
-                if (matchTime > GameLogic.Instance.MaxMatchTime) {
-                    GameLogic.Instance.Play.UnloadHUD();
-                    GameLogic.Instance.SetGameState(GameState.GAMEOVER);
-                }
             }
         }
 
@@ -283,7 +309,40 @@ namespace Assets.Scripts.Network {
                 case Colors.GREEN: PaintProjectileManager.GetInstance().MakeAHit(vector, new Color(0.54f, 0.88f, 0.38f)); break;
                 case Colors.BLUE: PaintProjectileManager.GetInstance().MakeAHit(vector, new Color(0.21f, 0.73f, 0.95f)); break;
             }
-           
+
+        }
+
+        public void CalcPercent(PaintCalculation[] objectsToPaint) {
+            float totalRedCount = 0;
+            float totalYellowCount = 0;
+            float totalGreenCount = 0;
+            float totalBlueCount = 0;
+            foreach (PaintCalculation towerPiece in objectsToPaint) {
+                int[] temp;
+                temp = towerPiece.calcPaint();
+                totalRedCount += temp[0];
+                totalYellowCount += temp[1];
+                totalGreenCount += temp[2];
+                totalBlueCount += temp[3];
+            }
+            float total = 0;
+            total = totalRedCount + totalYellowCount + totalGreenCount + totalBlueCount;
+            if (total != 0) {
+                if (totalRedCount != 0) {
+                    redPercent = totalRedCount / total;
+                }
+                if (totalYellowCount != 0) {
+                    yellowPercent = totalYellowCount / total;
+                }
+                if (totalGreenCount != 0) {
+                    greenPercent = totalGreenCount / total;
+                }
+                if (totalBlueCount != 0) {
+                    bluePercent = totalBlueCount / total;
+                }
+            }
+            //Debug.Log("BIG PERCENT DEBUG ==> RED: " + redPercent + " YELLOW: " + yellowPercent + " GREEN: " + greenPercent + " BLUE: " + bluePercent + " TOTAL: " + total);
+            //Debug.Log("BUG COUNT ==> RED: " + totalRedCount + " YELLOW: " + totalYellowCount + " GREEN: " + totalGreenCount + " BLUE: " + totalBlueCount + " TOTAL: " + total); 
         }
     }
 }

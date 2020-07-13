@@ -51,7 +51,7 @@ namespace PaintTower.Canvas {
         /// </summary>
         public override void InitializeHUD() {
             base.InitializeHUD();
-
+            m_matchState = GameObject.Find("LocalPlayer").GetComponent<MatchState>();
             m_barProgress = 0;
 
             redBar.anchorMax = new Vector2(0, 1);
@@ -67,7 +67,8 @@ namespace PaintTower.Canvas {
             greenBar.offsetMax = Vector2.zero;
             blueBar.offsetMin = Vector2.zero;
             blueBar.offsetMax = Vector2.zero;
-            float[] percents = calcPercent();
+
+            float[] percents = m_matchState.percents;
             redEnd = percents[0];
             yellowEnd = percents[1];
             greenEnd = percents[2];
@@ -142,43 +143,6 @@ namespace PaintTower.Canvas {
             GameLogic.Instance.SetGameState(Enum.GameState.MENU);
         }
 
-        private float[] calcPercent() {
-            float totalRedCount = 0;
-            float totalYellowCount = 0;
-            float totalGreenCount = 0;
-            float totalBlueCount = 0;
-            float redPercent = 0;
-            float yellowPercent = 0;
-            float greenPercent = 0;
-            float bluePercent = 0;
-            foreach (PaintCalculation towerPiece in objectsToPaint) {
-                int[] temp;
-                temp = towerPiece.calcPaint();
-                totalRedCount += temp[0];
-                totalYellowCount += temp[1];
-                totalGreenCount += temp[2];
-                totalBlueCount += temp[3];
-            }
-            float total = 0;
-            total = totalRedCount + totalYellowCount + totalGreenCount + totalBlueCount;
-            if (total != 0) {
-                if (totalRedCount != 0) {
-                    redPercent = totalRedCount / total;
-                }
-                if (totalYellowCount != 0) {
-                    yellowPercent = totalYellowCount / total;
-                }
-                if (totalGreenCount != 0) {
-                    greenPercent = totalGreenCount / total;
-                }
-                if (totalBlueCount != 0) {
-                    bluePercent = totalBlueCount / total;
-                }
-            }
-            float[] percents = { redPercent, yellowPercent, greenPercent, bluePercent };
-            return percents;
-            //Debug.Log("BIG PERCENT DEBUG ==> RED: " + redPercent + " YELLOW: " + yellowPercent + " GREEN: " + greenPercent + " BLUE: " + bluePercent + " TOTAL: " + total);
-            //Debug.Log("BUG COUNT ==> RED: " + totalRedCount + " YELLOW: " + totalYellowCount + " GREEN: " + totalGreenCount + " BLUE: " + totalBlueCount + " TOTAL: " + total); 
-        }
+        
     }
 }

@@ -71,6 +71,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,6 +83,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -122,7 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9510501cab97f40808b33acc43a73e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paintColor: {r: 0.0969303, g: 0.06520329, b: 0.9852941, a: 1}
   paintDiameter: 1.5
 --- !u!114 &114152180468776812
 MonoBehaviour:

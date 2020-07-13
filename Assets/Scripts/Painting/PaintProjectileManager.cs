@@ -75,7 +75,7 @@ public class PaintProjectileManager : MonoBehaviour
 
         for (int i = 0; i < 14; ++i) {
             RaycastHit hit;
-            if (Physics.Raycast(position, GetSphereRay(i), out hit, 1.5f)) {
+            if (Physics.Raycast(position, GetSphereRay(i), out hit, 0.5f)) {
                 if (hit.collider is MeshCollider) {
 
                     MyShaderBehavior script = hit.collider.gameObject.GetComponent<MyShaderBehavior>();
