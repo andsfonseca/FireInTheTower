@@ -65,7 +65,7 @@ MonoBehaviour:
     i14: 0
     i15: 0
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &4805296401885803809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,5 +95,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lobbyTime: 0
+  matchTime: 0
   isHost: 0
   LobbyIsOpen: 0
+  MatchIsOpen: 0
+  MatchIsOver: 0
+  redPercent: 0
+  yellowPercent: 0
+  greenPercent: 0
+  bluePercent: 0
+  playerColor: 0
