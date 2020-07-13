@@ -151,7 +151,6 @@ namespace PaintTower.Scripts {
         /// </summary>
         private float m_UserForceQuittingTime = 0;
 
-
         /// <summary>
         /// Instância da GameLogic
         /// </summary>
