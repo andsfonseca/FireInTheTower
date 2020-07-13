@@ -68,7 +68,7 @@ namespace PaintTower.Painting {
         public void Shoot() {
             GameObject projectile = Instantiate(PaintProjectileManager.GetInstance().paintBombPrefab, mainCamera.transform.position, mainCamera.transform.rotation, GameLogic.Instance.AR.WorldOrigin);
             projectile.GetComponent<PaintProjectileBehavior>().PaintColor = ColorProjectile;
-            projectile.GetComponent<Rigidbody>().velocity = mainCamera.transform.forward * 5;
+            projectile.GetComponent<Rigidbody>().velocity = mainCamera.transform.forward * 15;
         }
     }
 }
