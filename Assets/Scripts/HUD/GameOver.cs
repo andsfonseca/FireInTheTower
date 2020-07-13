@@ -41,6 +41,7 @@ namespace PaintTower.Canvas {
 
         private float m_barProgress;
 
+        private float delay = 2f;
         /// <summary>
         /// Definições da Partida
         /// </summary>
@@ -68,11 +69,6 @@ namespace PaintTower.Canvas {
             blueBar.offsetMin = Vector2.zero;
             blueBar.offsetMax = Vector2.zero;
 
-            float[] percents = m_matchState.percents;
-            redEnd = percents[0];
-            yellowEnd = percents[1];
-            greenEnd = percents[2];
-            blueEnd = percents[3];
         }
 
 
@@ -88,6 +84,18 @@ namespace PaintTower.Canvas {
         }
 
         public void Update() {
+
+
+            if (delay > 0) {
+                delay -= Time.deltaTime;
+                return;
+            }
+
+            float[] percents = m_matchState.percents;
+            redEnd = percents[0];
+            yellowEnd = percents[1];
+            greenEnd = percents[2];
+            blueEnd = percents[3];
 
             if (m_barProgress < 1) {
 
