@@ -1,4 +1,5 @@
-﻿using PaintTower.Scripts;
+﻿using Assets.Scripts.Network;
+using PaintTower.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,17 +52,22 @@ namespace PaintTower.Painting {
 
             PaintProjectileManager manager = PaintProjectileManager.GetInstance();
 
-            for (int i = 0; i < 14; ++i) {
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, manager.GetSphereRay(i), out hit, paintDiameter)) {
-                    if (hit.collider is MeshCollider) {
-                        MyShaderBehavior script = hit.collider.gameObject.GetComponent<MyShaderBehavior>();
-                        if (null != script) {
-                            script.PaintOnColored(hit.textureCoord2, manager.GetRandomProjectileSplash(), PaintColor);
-                        }
-                    }
-                }
-            }
+            //Enviar o Pelo hit de rede
+            GameObject.Find("LocalPlayer").GetComponent<MatchState>().SendHit(transform.position);
+
+            //for (int i = 0; i < 14; ++i) {
+            //    RaycastHit hit;
+            //    if (Physics.Raycast(transform.position, manager.GetSphereRay(i), out hit, paintDiameter)) {
+            //        if (hit.collider is MeshCollider) {
+
+            //            MyShaderBehavior script = hit.collider.gameObject.GetComponent<MyShaderBehavior>();
+            //            if (null != script) {
+            //                script.PaintOnColored(hit.textureCoord2, manager.GetRandomProjectileSplash(), PaintColor);
+            //            }
+            //        }
+            //    }
+            //}
+
         }
     }
 }

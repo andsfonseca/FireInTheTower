@@ -52,7 +52,7 @@ namespace Assets.Scripts.Network {
         /// <summary>
         /// Posição do Player em relação a câmera
         /// </summary>
-        [SyncVar] public Vector3 playerCameraPosition;
+        //[SyncVar] public Vector3 playerCameraPosition;
 
 #pragma warning restore 618
 
@@ -129,7 +129,7 @@ namespace Assets.Scripts.Network {
 
                 //Todos podem fazer isso
                 if (isLocalPlayer) {
-                    playerCameraPosition = GameLogic.Instance.AR.WorldOrigin.position - GameLogic.Instance.Camera.transform.position;
+                    //playerCameraPosition = GameLogic.Instance.AR.WorldOrigin.position - GameLogic.Instance.Camera.transform.position;
                     //Só deve executar se dono da sessão estiver online
                     if (Instance) {
                         //Atualiza o tempo
@@ -168,6 +168,12 @@ namespace Assets.Scripts.Network {
         public void SetColor(Colors color) {
             if (isLocalPlayer) {
                 CmdSetColor(color);
+            }
+        }
+
+        public void SendHit(Vector3 position) {
+            if (isLocalPlayer) {
+                CmdSendHit(position);
             }
         }
 
@@ -213,7 +219,7 @@ namespace Assets.Scripts.Network {
         [ClientRpc]
 #pragma warning restore 618
         void RpcChangePlayerPostion(Vector3 vector) {
-            playerCameraPosition = vector;
+            //playerCameraPosition = vector;
         }
 
         /// <summary>
@@ -238,8 +244,48 @@ namespace Assets.Scripts.Network {
             //Remove a autoridade
             identity.RemoveClientAuthority(connectionToClient);
         }
-    }
 
+
+        /// <summary>
+        /// Comando de Alterar cor
+        /// </summary>
+        /// <param name="color">Qual a cor</param>
+#pragma warning disable 618
+        [Command]
+#pragma warning restore 618
+        void CmdSendHit(Vector3 position) {
+            //Pega a Indentidade
+#pragma warning disable 618
+            var identity = GetComponent<NetworkIdentity>();
+#pragma warning restore 618
+
+            //Coloca a autoridade no Cliente
+            identity.AssignClientAuthority(connectionToClient);
+
+            //Faz o que tem que fazer
+            RpcHit(position);
+
+            //Remove a autoridade
+            identity.RemoveClientAuthority(connectionToClient);
+        }
+
+        /// <summary>
+        /// Comando de Alteraçã de Cor vinda do Cliente
+        /// </summary>
+        /// <param name="color"></param>
+#pragma warning disable 618
+        [ClientRpc]
+#pragma warning restore 618
+        void RpcHit(Vector3 vector) {
+            switch (playerColor) {
+                case Colors.RED: PaintProjectileManager.GetInstance().MakeAHit(vector, new Color(0.98f, 0.51f, 0.2f)); break;
+                case Colors.YELLOW: PaintProjectileManager.GetInstance().MakeAHit(vector, new Color(1, 0.85f, 0.28f)); break;
+                case Colors.GREEN: PaintProjectileManager.GetInstance().MakeAHit(vector, new Color(0.54f, 0.88f, 0.38f)); break;
+                case Colors.BLUE: PaintProjectileManager.GetInstance().MakeAHit(vector, new Color(0.21f, 0.73f, 0.95f)); break;
+            }
+           
+        }
+    }
 }
 
 

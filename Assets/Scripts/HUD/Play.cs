@@ -64,13 +64,13 @@ namespace PaintTower.Canvas {
                     break;
             }
 
-            MatchState[] matchstates = FindObjectsOfType<MatchState>();
+            //MatchState[] matchstates = FindObjectsOfType<MatchState>();
 
-            for (int i = 0; i < matchstates.Length; i++) {
-                GameObject go = Instantiate(playerReferecePrefab);
-                go.transform.position = matchstates[i].playerCameraPosition;
-                m_elements.Add(matchstates[i], go);
-            }
+            //for (int i = 0; i < matchstates.Length; i++) {
+            //    GameObject go = Instantiate(playerReferecePrefab);
+            //    go.transform.position = matchstates[i].playerCameraPosition;
+            //    m_elements.Add(matchstates[i], go);
+            //}
             
         }
 
@@ -93,9 +93,9 @@ namespace PaintTower.Canvas {
         public void Update() {
             PlayTimerText.text = ((int)(GameLogic.Instance.MaxMatchTime - m_matchState.matchTime)).ToString() + "s.";
 
-            foreach (KeyValuePair<MatchState, GameObject> entry in m_elements) {
-                entry.Value.transform.position = entry.Key.playerCameraPosition;
-            }
+            //foreach (KeyValuePair<MatchState, GameObject> entry in m_elements) {
+            //    entry.Value.transform.position = entry.Key.playerCameraPosition;
+            //}
         }
 
 

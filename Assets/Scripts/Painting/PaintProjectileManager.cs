@@ -70,4 +70,20 @@ public class PaintProjectileManager : MonoBehaviour
     {
         return c_sphereRays[id];
     }
+
+    public void MakeAHit(Vector3 position, Color color) {
+
+        for (int i = 0; i < 14; ++i) {
+            RaycastHit hit;
+            if (Physics.Raycast(position, GetSphereRay(i), out hit, 1.5f)) {
+                if (hit.collider is MeshCollider) {
+
+                    MyShaderBehavior script = hit.collider.gameObject.GetComponent<MyShaderBehavior>();
+                    if (null != script) {
+                        script.PaintOnColored(hit.textureCoord2, GetRandomProjectileSplash(), color);
+                    }
+                }
+            }
+        }
+    }
 }
