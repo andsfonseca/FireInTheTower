@@ -56,10 +56,10 @@ namespace Assets.Scripts.Network {
         /// Posição do Player em relação a câmera
         /// </summary>
         //[SyncVar] public Vector3 playerCameraPosition;
-        [SyncVar] float redPercent = 0;
-        [SyncVar] float yellowPercent = 0;
-        [SyncVar] float greenPercent = 0;
-        [SyncVar] float bluePercent = 0;
+        [SyncVar] public float redPercent = 0;
+        [SyncVar] public float yellowPercent = 0;
+        [SyncVar] public float greenPercent = 0;
+        [SyncVar] public float bluePercent = 0;
 
         public float[] percents {
             get {
@@ -144,6 +144,7 @@ namespace Assets.Scripts.Network {
                         CalcPercent(GameObject.FindObjectsOfType(typeof(PaintCalculation)) as PaintCalculation[]);
                         MatchIsOver = true;
                     }
+
                 }
 
                 //Todos podem fazer isso
@@ -317,6 +318,7 @@ namespace Assets.Scripts.Network {
             float totalYellowCount = 0;
             float totalGreenCount = 0;
             float totalBlueCount = 0;
+
             foreach (PaintCalculation towerPiece in objectsToPaint) {
                 int[] temp;
                 temp = towerPiece.calcPaint();
